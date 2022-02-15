@@ -8,7 +8,7 @@ const initialState = {
 
 const gameReducer = (state = initialState, action) => {
   switch (action.type){
-  case types.boxClick: {
+  case types.clickBox: {
     // update board
     const markers = markers.slice();
     markers[action.payload] = state.turn;
