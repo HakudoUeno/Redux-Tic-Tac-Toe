@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-const { useState } = React;
 import Box from './box.jsx';
+import { connect } from 'react-redux';
+import * as actions from '../actions/actions.js';
+
+
+const mapStateToProps = state => ({
+  markers : state.game.markers,
+});
+const mapDispatchToProps = dispatch => ({
+  clickBox : (boxId) => dispatch(actions.clickBoxActionCreator(boxId))
+});
 
 // create row component
 class Row extends Component {
   render() {
     const boxes = [];
     for (let i = 0; i < 3; i++) {
-      boxes.push(<Box key={`Box${this.props.rowNum * 3 + i}`} boxNum={this.props.rowNum * 3 + i} state={this.props.state} />);
+      const boxNum = this.props.rowNum * 3 + i;
+      boxes.push(<Box key={`Box${boxNum}`} boxNum={boxNum} marker={this.props.markers[boxNum]} clickBox={this.props.clickBox} />);
     }
     return (
       <div className="row">
@@ -26,4 +36,4 @@ class Row extends Component {
 //   return  <div>{boxes}</div>;
 // };
 
-export default Row;
+export default connect(mapStateToProps, mapDispatchToProps)(Row);

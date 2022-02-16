@@ -10,10 +10,19 @@ const gameReducer = (state = initialState, action) => {
   switch (action.type){
   case types.clickBox: {
     // update board
-    const markers = markers.slice();
+    const markers = state.markers.slice();
+    if (markers[action.payload] !== '-') return state;
+    if (state.winner !== null) return state;
+
     markers[action.payload] = state.turn;
     let turn = state.turn;
     let winner = state.winner;
+
+    if (!markers.includes('-')) return {
+      ...state,
+      markers,
+      winner: 'No one'
+    };
 
     // check for win
     const row = Math.floor(action.payload / 3);
@@ -25,9 +34,11 @@ const gameReducer = (state = initialState, action) => {
     if (markers[0] === markers[4] && markers[0] === markers[8] && markers[0] !== '-') winner = turn;
     if (markers[2] === markers[4] && markers[2] === markers[6] && markers[2] !== '-') winner = turn;
 
+    if (winner !== null) document.body.style.backgroundImage='url(\'https://www.swindonalexandrahouse.co.uk/wp-content/uploads/2021/08/suprise-party-ideas.jpg\')';
+
     // change turn
     turn = turn === 'X' ? 'O' : 'X';
-
+    
     return {
       ...state,
       markers,
@@ -35,6 +46,16 @@ const gameReducer = (state = initialState, action) => {
       winner
     }
   }
+  case types.resetBox: {
+    document.body.style.backgroundImage='none';
+    return {
+      markers: ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      turn: 'X',
+      winner: null
+    };
+  }
+
+
   default: 
     return state;
   }

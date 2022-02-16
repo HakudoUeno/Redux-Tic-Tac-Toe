@@ -6,4 +6,17 @@ body {
   padding: 0 2.5%;
 }
 
+#root {
+  text-align:center;
+  margin-top:10%;
+}
 
+.X {
+  color:white;
+  background-color: red;
+}
+
+.O {
+  color:white;
+  background-color: blue;
+}
